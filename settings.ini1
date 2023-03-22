@@ -1,9 +1,0 @@
-[HOSTS]
-0 = 8.8.8.8
-1 = ya.ru
-2 = 10.125.133.1
-
-[LED]
-led_brightness = 10
-led_count = 32
-
