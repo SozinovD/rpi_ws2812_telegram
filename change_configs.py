@@ -15,8 +15,8 @@ def_conf[hosts_section] = {'0' : '8.8.8.8',
                            '1' : 'google.com'
                           }
 
-def_conf[led_section] = {'LED_BRIGHTNESS' : '10',
-                         'LED_COUNT' : '32'
+def_conf[led_section] = {'BRIGHTNESS' : '10',
+                         'COUNT' : '32'
                         }
 
 def read_config(filename):
