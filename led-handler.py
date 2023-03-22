@@ -10,7 +10,9 @@ from rpi_ws281x import PixelStrip, Color
 
 import configparser
 
-conf_filename = 'settings.ini'
+import change_configs as configs
+
+config_filename = 'settings.ini'
 hosts_section = 'HOSTS'
 led_section = 'LED'
 
@@ -28,9 +30,8 @@ LED_BRIGHTNESS = 10
 LED_INVERT = False    # True to invert the signal (when using NPN transistor level shift)
 LED_CHANNEL = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
-RED = Color(255,0,0)
-GREEN = Color(0,255,0)
-
+DOWN_COLOR = Color(222,125,41)
+UP_COLOR = Color(193,97,229)
 
 def_conf = configparser.ConfigParser()
 def_conf[hosts_section] = {'0' : '8.8.8.8',
@@ -38,17 +39,10 @@ def_conf[hosts_section] = {'0' : '8.8.8.8',
                           }
 
 def_conf[led_section] = { 'brightness' : '10',
-                          'count' : '32'
+                          'count' : '32',
+                          'down_color' : '255,0,0',
+                          'up_color' : '0,255,0'
                         }
-
-
-def read_config_hosts(filename):
-  config_r = configparser.ConfigParser()
-  if os.path.isfile(filename) and not os.stat(filename).st_size == 0:
-    config_r.read(filename)
-  else:
-    config_r[hosts_section] = def_conf[hosts_section]
-  return config_r
 
 
 def get_hosts_from_cfg(config_g):
@@ -59,12 +53,7 @@ def get_hosts_from_cfg(config_g):
   return hosts_
 
 
-def show_config(config_s):
-  for key in config_s[hosts_section]:
-    print(key, " = ", config_s[hosts_section][key])
-
-
-def Display_Ping(hosts_):
+def Display_Ping(hosts_, up_color_, down_color_):
   result = []
   for host in hosts_:
     ip = host[1]
@@ -80,10 +69,10 @@ def Display_Ping(hosts_):
     led_num = int(host[0])
     ip = str(host[1])
     if returncode == 0:
-        strip.setPixelColor(led_num, GREEN)
+        strip.setPixelColor(led_num, up_color_)
         print("UP\t" + str(led_num) + "\t" + ip)
     else:
-        strip.setPixelColor(led_num, RED)
+        strip.setPixelColor(led_num, down_color_)
         print("DOWN\t" + str(led_num) + "\t" + ip)
   strip.show()
 
@@ -92,15 +81,22 @@ if __name__ == '__main__':
 
   if len(sys.argv) == 2:
     if os.path.isfile(sys.argv[1]) and not os.stat(sys.argv[1]).st_size == 0:
-      conf_filename = sys.argv[1]
+      config_filename = sys.argv[1]
     else:
       print("Invalid config filename, abort")
       exit()
 
   config = configparser.ConfigParser()
-  config = read_config_hosts(conf_filename)
+  config = configs.read_config(config_filename)
 
   hosts = get_hosts_from_cfg(config)
+  print(hosts)
+
+  up_color_arr = str(config[led_section]['up_color']).split(",")
+  UP_COLOR = Color(int(up_color_arr[0]), int(up_color_arr[1]), int(up_color_arr[2]))
+
+  down_color_arr = str(config[led_section]['down_color']).split(",")
+  DOWN_COLOR = Color(int(down_color_arr[0]), int(down_color_arr[1]), int(down_color_arr[2]))
 
   LED_BRIGHTNESS = int(config[led_section]['BRIGHTNESS'])
   LED_COUNT = int(config[led_section]['COUNT'])
@@ -110,6 +106,6 @@ if __name__ == '__main__':
 
   while True:
 
-    Display_Ping(hosts)
+    Display_Ping(hosts, UP_COLOR, DOWN_COLOR)
     print("___________")
     time.sleep(SLEEP_SEC)

@@ -31,6 +31,8 @@ def start(message):
     bot.send_message(message.from_user.id, line)
     return
   hosts_list = configs.show_hosts(config_filename, False)
+  config = configs.read_config(config_filename)
+
   print('GOT MSG: ' + message.text)
   if message.text == '/add_host':
     bot.send_message(message.from_user.id, hosts_list)
@@ -49,6 +51,17 @@ def start(message):
     line = 'Current brihtness is: ' + str(config[led_section]['brightness']) + '\nInput new value (1-254)'
     bot.send_message(message.from_user.id, line)
     bot.register_next_step_handler(message, do_change_brightness)
+
+  if message.text == '/chng_up_color':
+    line = 'Current up color is: ' + str(config[led_section]['up_color']) + '\nInput new value (r,g,b)'
+    bot.send_message(message.from_user.id, line)
+    bot.register_next_step_handler(message, do_change_up_color)
+
+  if message.text == '/chng_down_color':
+    line = 'Current down color is: ' + str(config[led_section]['down_color']) + '\nInput new value (r,g,b)'
+    bot.send_message(message.from_user.id, line)
+    bot.register_next_step_handler(message, do_change_down_color)
+
 
 def do_del_host(message):
   led_pin = 33
@@ -82,6 +95,18 @@ def do_change_brightness(message):
   new_brightness = int(message.text)
   configs.add_key(config_filename, led_section, 'brightness', new_brightness)
   line = 'Setting new brightness: ' + str(new_brightness)
+  bot.send_message(message.from_user.id, line)
+
+def do_change_up_color(message):
+  new_color = str(message.text)
+  configs.add_key(config_filename, led_section, 'up_color', new_color)
+  line = 'Setting new up color: ' + str(new_color)
+  bot.send_message(message.from_user.id, line)
+
+def do_change_down_color(message):
+  new_color = str(message.text)
+  configs.add_key(config_filename, led_section, 'down_color', new_color)
+  line = 'Setting new down color: ' + str(new_color)
   bot.send_message(message.from_user.id, line)
 
 if __name__ == '__main__':
