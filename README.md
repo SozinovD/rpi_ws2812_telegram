@@ -20,15 +20,15 @@ Just making up near-real-world usecases for my RPi0W as former SRE engineer to t
 
 0. In Telegram go to BotFather and create a new bot (https://core.telegram.org/bots/tutorial)
 
-1. Install python3 and git to you SBC
+1. Install python3 and git to you SBC:
 
 `sudo apt update && sudo apt install git python3 -y`
 
-2. Clone this git repo to your device
+2. Clone this git repo to your device:
 
 `git clone https://github.com/SozinovD/rpi_ws2812_telegram; cd rpi_ws2812_telegram`
 
-3. Install requiements
+3. Install requiements:
 
 `python3 -m pip install -r requiements.txt`
 
@@ -40,11 +40,11 @@ api_key = AAABBBCCC:DDDEEEFFFFFFF
 admin_id = <ADMIN_USER_ID>
 ```
 
-5. Make script "run_all.sh" executable and run it
+5. Make script "run_all.sh" executable and run it:
 
 `chmod +x run_all.sh; ./run_all.sh`
 
-6. Send message to your bot, it will reply that you are not permitted to use it and will return your user_id. Add your user_id to tg.ini file, so it looks like this
+6. Send message to your bot, it will reply that you are not permitted to use it and will return your user_id. Add your user_id to tg.ini file, so it looks like this:
 
 ```
 [TELEGRAM]
@@ -52,7 +52,7 @@ api_key = AAABBBCCC:DDDEEEFFFFFFF
 admin_id = 123123123123
 ```
 
-7. Now you can add and delete hosts from monitoring, also you cam change brightness of all LEDs and color of UP and DOWN host states by sending these commands to bot:
+7. Now you can add and delete hosts from monitoring, also you can change brightness of all LEDs and color of UP and DOWN host states by sending these commands to bot:
 
 ```
 /add_host - add host to monitoring
