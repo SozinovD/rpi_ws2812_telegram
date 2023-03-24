@@ -28,9 +28,9 @@ Just making up near-real-world usecases for my RPi0W as former SRE engineer to t
 
 `git clone https://github.com/SozinovD/rpi_ws2812_telegram; cd rpi_ws2812_telegram`
 
-3. Install requiements:
+3. Install requirements:
 
-`python3 -m pip install -r requiements.txt`
+`python3 -m pip install -r requirements.txt`
 
 4. Change api_key in tg.ini file, so file looks like this:
 
