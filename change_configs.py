@@ -26,8 +26,10 @@ def read_config(filename):
   if os.path.isfile(filename) and not os.stat(filename).st_size == 0:
     config_r.read(filename)
   else:
-    config_r[hosts_section] = def_conf[hosts_section]
-    config_r[led_section] = def_conf[led_section]
+    for section in def_conf.sections()
+      config_r[section] = {}
+      for key in def_conf[section]:
+        config_r[section][key] = str(def_conf[section][key])
   return config_r
 
 def write_to_file(config_w, config_filename_):
