@@ -24,7 +24,7 @@ Just making up near-real-world usecases for my RPi0W as former SRE engineer to t
 
 `sudo apt update && sudo apt install git python3 -y`
 
-2. Clone this git repo to your device:
+2. Clone this git repo to your device and go to project's dir:
 
 `git clone https://github.com/SozinovD/rpi_ws2812_telegram; cd rpi_ws2812_telegram`
 
