@@ -30,20 +30,9 @@ LED_BRIGHTNESS = 10
 LED_INVERT = False    # True to invert the signal (when using NPN transistor level shift)
 LED_CHANNEL = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
+# add some funny colors, it never will be used
 DOWN_COLOR = Color(222,125,41)
 UP_COLOR = Color(193,97,229)
-
-def_conf = configparser.ConfigParser()
-def_conf[hosts_section] = {'0' : '8.8.8.8',
-                           '1' : 'google.com'
-                          }
-
-def_conf[led_section] = { 'brightness' : '10',
-                          'count' : '32',
-                          'down_color' : '255,0,0',
-                          'up_color' : '0,255,0'
-                        }
-
 
 def get_hosts_from_cfg(config_g):
   hosts_ = []

@@ -26,7 +26,7 @@ def read_config(filename):
   if os.path.isfile(filename) and not os.stat(filename).st_size == 0:
     config_r.read(filename)
   else:
-    for section in def_conf.sections()
+    for section in def_conf.sections():
       config_r[section] = {}
       for key in def_conf[section]:
         config_r[section][key] = str(def_conf[section][key])
