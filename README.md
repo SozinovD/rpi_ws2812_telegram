@@ -52,13 +52,13 @@ api_key = AAABBBCCC:DDDEEEFFFFFFF
 admin_id = 123123123123
 ```
 
-7. Now you can add and delete hosts from monitoring, also you can change brightness of all LEDs and color of UP and DOWN host states by sending these commands to bot:
+7. Now you can add and delete hosts from monitoring, also you can change brightness of all LEDs and color of UP and DOWN host states by sending these commands to bot (always add '/' in front of command):
 
 ```
-/add_host - add host to monitoring
-/del_host - del host from monitoring by LED
-/show_hosts - show all hosts in config
-/chng_bright - change LED brightness
-/chng_up_color - change color for UP hosts
-/chng_down_color - change color for DOWN hosts
+add_host - add host to monitoring
+del_host - del host from monitoring by LED
+show_hosts - show all hosts in config
+chng_bright - change LED brightness
+chng_up_color - change color for UP hosts
+chng_down_color - change color for DOWN hosts
 ```
