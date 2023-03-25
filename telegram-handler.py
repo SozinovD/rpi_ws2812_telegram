@@ -31,7 +31,7 @@ def start(message):
     bot.send_message(message.from_user.id, line)
     return
   hosts_list = configs.show_hosts(config_filename, False)
-  config = configs.read_config(config_filename)
+#  config = configs.read_config(config_filename)
 
   print('GOT MSG: ' + message.text)
   if message.text == '/add_host':
@@ -64,15 +64,10 @@ def start(message):
 
   if message.text == '/show_conf':
     line = ''
-    for section in config.sections():
-      line = line + '[' + section + ']\n'
-      for key in config[section]:
-        line = line + key + ' = ' + str(config[section][key]) + '\n'
+    line = configs.show_config_full(config_filename, False)
 
-#    line = 'Current config:\n' + str(line)
     bot.send_message(message.from_user.id, 'Current config:')
     bot.send_message(message.from_user.id, line)
-    bot.register_next_step_handler(message, do_change_down_color)
 
 
 def do_del_host(message):
