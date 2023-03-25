@@ -61,4 +61,5 @@ show_hosts - show all hosts in config
 chng_bright - change LED brightness
 chng_up_color - change color for UP hosts
 chng_down_color - change color for DOWN hosts
+show_conf - show full current config
 ```

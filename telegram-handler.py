@@ -62,6 +62,18 @@ def start(message):
     bot.send_message(message.from_user.id, line)
     bot.register_next_step_handler(message, do_change_down_color)
 
+  if message.text == '/show_conf':
+    line = ''
+    for section in config.sections():
+      line = line + '[' + section + ']\n'
+      for key in config[section]:
+        line = line + key + ' = ' + str(config[section][key]) + '\n'
+
+#    line = 'Current config:\n' + str(line)
+    bot.send_message(message.from_user.id, 'Current config:')
+    bot.send_message(message.from_user.id, line)
+    bot.register_next_step_handler(message, do_change_down_color)
+
 
 def do_del_host(message):
   led_pin = 33
