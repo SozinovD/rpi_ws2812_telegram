@@ -92,7 +92,7 @@ def show_config_full(config_filename_, do_print):
     line = line + '[' + section + ']\n'
     for key in config_s[section]:
       line = line + key + ' = ' + str(config_s[section][key]) + '\n'
-    line = line + '\n'
+    line += '\n'
   if do_print != False:
     print(line)
   return line
