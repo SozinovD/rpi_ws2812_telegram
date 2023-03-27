@@ -84,7 +84,7 @@ def show_hosts(config_filename_, do_print):
     print(line)
   return line
 
-def show_config_full(config_filename_, do_print):
+def show_config(config_filename_, do_print):
   config_s = configparser.ConfigParser()
   config_s = read_config(config_filename_)
   line = ''
@@ -92,7 +92,18 @@ def show_config_full(config_filename_, do_print):
     line = line + '[' + section + ']\n'
     for key in config_s[section]:
       line = line + key + ' = ' + str(config_s[section][key]) + '\n'
-    line += '\n'
+    line = line + '\n'
+  if do_print != False:
+    print(line)
+  return line
+
+def show_config(config_filename_, section, do_print):
+  config_s = configparser.ConfigParser()
+  config_s = read_config(config_filename_)
+  line = ''
+  for key in config_s[section]:
+    line = line + key + ' = ' + str(config_s[section][key]) + '\n'
+  line = line + '\n'
   if do_print != False:
     print(line)
   return line
