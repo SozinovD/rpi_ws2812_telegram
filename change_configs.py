@@ -56,13 +56,17 @@ def del_key(config_filename_, section, key_to_del):
   write_to_file(new_config, config_filename_)
   return(new_config)
 
-def read_args():
-  if len(sys.argv) > 3:
+def show_help():
     print('\nInput 2 parameters to add host: led_pin and host(ip or DNS name), for example:')
     print(sys.argv[0] + ' 2 8.8.4.4')
     print('\nOr 1 parameter to delete host by led_pin, example:')
     print(sys.argv[0] + ' 2')
     print('\nOr no parameters to just show hosts')
+
+def read_args():
+  if len(sys.argv) > 3:
+    print("ERROR: wrong number of aruments")
+    show_help()
     print('\nAbort')
     exit()
   if len(sys.argv) == 3:
@@ -72,17 +76,6 @@ def read_args():
 
 def restart_daemon():
   subprocess.run(['sudo', 'systemctl', 'restart', 'ledHat.service'])
-
-def show_hosts(config_filename_, do_print):
-  config_s = configparser.ConfigParser()
-  config_s = read_config(config_filename_)
-  line = ''
-  for key in config_s[hosts_section]:
-    line += key + " = " + config_s[hosts_section][key]
-    line += '\n'
-  if do_print != False:
-    print(line)
-  return line
 
 def show_config(config_filename_, do_print):
   config_s = configparser.ConfigParser()
@@ -97,7 +90,7 @@ def show_config(config_filename_, do_print):
     print(line)
   return line
 
-def show_config(config_filename_, section, do_print):
+def show_config_section(config_filename_, section, do_print):
   config_s = configparser.ConfigParser()
   config_s = read_config(config_filename_)
   line = ''
@@ -120,4 +113,4 @@ if __name__ == '__main__':
     del_key(config_filename, hosts_section, args_arr[0])
 
   if len(sys.argv) == 1:
-    show_hosts(config_filename, True)
+    show_config_section(config_filename, hosts_section, True)

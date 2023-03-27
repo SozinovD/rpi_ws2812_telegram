@@ -30,7 +30,7 @@ def start(message):
     line = 'You are not allowed to use this bot. Your user_id below\n' + str(message.from_user.id)
     bot.send_message(message.from_user.id, line)
     return
-  hosts_list = configs.show_config(config_filename, hosts_section, False)
+  hosts_list = configs.show_config_section(config_filename, hosts_section, False)
 
   print('GOT MSG: ' + message.text)
   if message.text == '/add_host':
@@ -63,7 +63,7 @@ def start(message):
 
   if message.text == '/show_conf':
     line = ''
-    line = configs.show_config_full(config_filename, False)
+    line = configs.show_config(config_filename, False)
 
     bot.send_message(message.from_user.id, 'Current config:')
     bot.send_message(message.from_user.id, line)
@@ -125,6 +125,6 @@ if __name__ == '__main__':
       print("Invalid config filename, abort")
       exit()
 
-  print(configs.show_config(config_filename, hosts_section, False))
+  configs.show_config(config_filename, False)
 
   bot.infinity_polling()
