@@ -4,7 +4,15 @@ import configparser
 import os
 import telebot
 import change_configs as configs
+import handle_files as files
 import sys
+
+from os import listdir
+from os.path import isfile, join
+
+
+files_dir = 'files'
+pwd = os.getcwd()
 
 tg_config_filename = 'tg.ini'
 tg_section = 'TELEGRAM'
@@ -68,6 +76,51 @@ def start(message):
     bot.send_message(message.from_user.id, 'Current config:')
     bot.send_message(message.from_user.id, line)
 
+  if message.text == '/list_files':
+    files_list = ''
+    files_list = files.list(files_dir)
+
+    print(files_list)
+    bot.send_message(message.from_user.id, 'Files list:')
+    bot.send_message(message.from_user.id, files_list, parse_mode="Markdown")
+
+  if message.text == '/rm_file':
+    files_list = files.list(files_dir)
+    if not files_list:
+      bot.send_message(message.from_user.id, 'No files found')
+      return
+
+    bot.send_message(message.from_user.id, 'Choose file to remove:')
+    bot.send_message(message.from_user.id, files_list, parse_mode="Markdown")
+    bot.register_next_step_handler(message, do_rm_file)
+
+  if message.text == '/send_file':
+    bot.send_message(message.from_user.id, 'Choose file to send:')
+    files_list = files.list(files_dir)
+
+    bot.send_message(message.from_user.id, files_list, parse_mode="Markdown")
+    bot.register_next_step_handler(message, do_send_file)
+
+
+
+@bot.message_handler(content_types=['document'])
+def save_file(message):
+  try:
+    chat_id = message.chat.id
+
+    file_info = bot.get_file(message.document.file_id)
+    downloaded_file = bot.download_file(file_info.file_path)
+
+    src = os.path.join(pwd, files_dir, message.document.file_name)
+    with open(src, 'wb') as new_file:
+      new_file.write(downloaded_file)
+
+    line = "I'll save it to:\n`" + src + "`"
+
+    bot.reply_to(message, line, parse_mode="Markdown")
+  except Exception as e:
+    bot.reply_to(message, e)
+
 
 def do_del_host(message):
   led_pin = 33
@@ -115,6 +168,21 @@ def do_change_down_color(message):
   line = 'Setting new down color: ' + str(new_color)
   bot.send_message(message.from_user.id, line)
 
+def do_rm_file(message):
+#  full_path = os.path.join(files_dir, message.text)
+#  if not os.path.isfile(full_path):
+#    bot.send_message(message.from_user.id, 'No files found')'
+  bot.send_message(message.from_user.id, files.rm(files_dir, message.text))
+
+def do_send_file(message):
+  try:
+    file_path = os.path.join(files_dir, message.text)
+    file = open(file_path, 'rb')
+    bot.send_document(message.from_user.id, file)
+  except Exception as e:
+    bot.send_message(message.from_user.id, e)
+
+
 if __name__ == '__main__':
 
   if len(sys.argv) == 3:
@@ -124,6 +192,10 @@ if __name__ == '__main__':
     else:
       print("Invalid config filename, abort")
       exit()
+
+  if not os.path.isdir(files_dir):
+    print('Making dir: ', files_dir)
+    os.mkdir(files_dir, mode=0o777, dir_fd=None)
 
   configs.show_config(config_filename, False)
 
