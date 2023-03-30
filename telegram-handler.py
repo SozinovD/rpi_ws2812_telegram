@@ -79,6 +79,9 @@ def start(message):
   if message.text == '/list_files':
     files_list = ''
     files_list = files.list(files_dir)
+    if not files_list:
+      bot.send_message(message.from_user.id, 'No files found')
+      return
 
     print(files_list)
     bot.send_message(message.from_user.id, 'Files list:')
@@ -106,17 +109,12 @@ def start(message):
 @bot.message_handler(content_types=['document'])
 def save_file(message):
   try:
-    chat_id = message.chat.id
-
     file_info = bot.get_file(message.document.file_id)
     downloaded_file = bot.download_file(file_info.file_path)
-
     src = os.path.join(pwd, files_dir, message.document.file_name)
     with open(src, 'wb') as new_file:
       new_file.write(downloaded_file)
-
     line = "I'll save it to:\n`" + src + "`"
-
     bot.reply_to(message, line, parse_mode="Markdown")
   except Exception as e:
     bot.reply_to(message, e)
@@ -169,9 +167,6 @@ def do_change_down_color(message):
   bot.send_message(message.from_user.id, line)
 
 def do_rm_file(message):
-#  full_path = os.path.join(files_dir, message.text)
-#  if not os.path.isfile(full_path):
-#    bot.send_message(message.from_user.id, 'No files found')'
   bot.send_message(message.from_user.id, files.rm(files_dir, message.text))
 
 def do_send_file(message):
