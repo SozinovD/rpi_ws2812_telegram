@@ -2,9 +2,12 @@
 
 *THIS THING JUST PINGS HOSTS*
 
-Hi, it's more of a fun than really usefull project
-
 Just making up near-real-world usecases for my RPi0W as former SRE engineer to train my Python skills
+
+Sometimes i need to ping several hosts for debuggind purposes for couple hours, so it's more handy to look at LEDs and immediatly see what's up with hosts than to add them to monitoring or keep several terminal windows open
+
+![Example setup](https://github.com/SozinovD/rpi_ws2812_telegram/blob/main/photos/photo_2023-03-24_12-34-05.jpg)
+
 
 ## Requiements
 
